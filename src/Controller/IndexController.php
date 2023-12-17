@@ -7,10 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class IndexController extends AbstractController
 {
- public function index(): Response
- {
-     return $this->render('base.html.twig', [
-//         'title'=>'ЭТО САЙТ'
-     ]);
- }
+    public function index(): Response
+    {
+        return $this->render('blog.html.twig');
+    }
 }

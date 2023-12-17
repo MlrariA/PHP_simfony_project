@@ -2,28 +2,29 @@
 
 namespace App\Entity;
 
-use App\Repository\PostRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\CommentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PostRepository::class)]
-class Post
+#[ORM\Entity(repositoryClass: CommentRepository::class)]
+class Comment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'posts')]
+    #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
-    private Collection $comments;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $approved = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
@@ -34,10 +35,8 @@ class Post
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
 
-    public function __construct()
-    {
-        $this->comments = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    private ?Post $post = null;
 
     public function getId(): ?int
     {
@@ -56,32 +55,14 @@ class Post
         return $this;
     }
 
-    /**
-     * @return Collection<int, Comment>
-     */
-    public function getComments(): Collection
+    public function getEmail(): ?string
     {
-        return $this->comments;
+        return $this->email;
     }
 
-    public function addComment(Comment $comment): static
+    public function setEmail(?string $email): static
     {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): static
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getPost() === $this) {
-                $comment->setPost(null);
-            }
-        }
+        $this->email = $email;
 
         return $this;
     }
@@ -94,6 +75,18 @@ class Post
     public function setContent(string $content): static
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function isApproved(): ?bool
+    {
+        return $this->approved;
+    }
+
+    public function setApproved(?bool $approved): static
+    {
+        $this->approved = $approved;
 
         return $this;
     }
@@ -130,6 +123,18 @@ class Post
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): static
+    {
+        $this->post = $post;
 
         return $this;
     }

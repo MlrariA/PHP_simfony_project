@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container mt-4 d-flex flex-column gap-4">
+        {% for post in posts %}
+            <div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{ post.user.email }}</h3>
+                        <div>{{ post.createdAt|date('d.m.Y H:i:s') }}</div>
+                    </div>
+                    <div class="card-body">
+                        <h1></h1>
+                        <p class="card-text">{{ post.content }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <h3>Комментарии</h3>
+                        {% for comment in post.comments %}
+                            <div class="media mt-3">
+                                <div class="media-body">
+                                    <h5 class="mt-0">{{ comment.user? comment.user.email : comment.email }}</h5>
+                                    <div>{{ comment.createdAt|date('d.m.Y H:i:s') }}</div>
+                                    <p>{{ comment.content }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

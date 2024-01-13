@@ -4,16 +4,23 @@
         {% for post in posts %}
             <div>
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">{{ post.user.email }}</h3>
-                        <div>{{ post.createdAt|date('d.m.Y H:i:s') }}</div>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="card-title">{{ post.user.email }}</h3>
+                            <div>{{ post.createdAt|date('d.m.Y H:i:s') }}</div>
+                        </div>
+                        {% if is_granted(constant("App\\Entity\\User::ROLE_ADMIN")) %}
+                            <a href="{{ path("post_edit", {post:post.id}) }}" class="btn btn-secondary">изменить статью</a>
+                        {% endif %}
                     </div>
                     <div class="card-body">
-                        <h1></h1>
                         <p class="card-text">{{ post.content }}</p>
                     </div>
                     <div class="card-footer">
-                        <h3>Комментарии</h3>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>Комментарии </h3>
+                            <a href="{{ path("homepage") }}" class="btn btn-success">добавить коментарий</a>
+                        </div>
                         {% for comment in post.comments %}
                             <div class="media mt-3">
                                 <div class="media-body">

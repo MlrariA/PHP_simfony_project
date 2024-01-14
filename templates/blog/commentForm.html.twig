@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block title %}Комментарий{% endblock %}
+
+{% block body %}
+    <h1>Комментарий</h1>
+
+    {{ form_errors(form) }}
+
+    {{ form_start(form) }}
+    {% if form.email is defined %}
+        {{ form_row(form.email) }}
+    {% endif %}
+    {{ form_row(form.content) }}
+
+    <button type="submit" class="btn btn-primary">Комментарий</button>
+    {{ form_end(form, {render_rest:false}) }}
+{% endblock %}

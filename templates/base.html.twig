@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Блог{% endblock %}</title>
@@ -31,6 +31,18 @@
                     {% if is_granted(constant("App\\Entity\\User::ROLE_ADMIN")) %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path("post_create")}}">добавить статью</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('IS_AUTHENTICATED') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path("app_logout")}}">выйти</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path("app_login")}}">войти</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path("app_register")}}">зарегистрироваться</a>
                         </li>
                     {% endif %}
                 </ul>

@@ -15,11 +15,24 @@ app_register:
     controller: App\Controller\LoginController::registration
 
 post_create:
-    path: /post/create
+    path: /admin/post/create
     controller: App\Controller\Admin\BlogController::createPost
 
 post_edit:
-    path: /post/{post}/edit
+    path: /admin/post/{post}/edit
     controller: App\Controller\Admin\BlogController::editPost
     requirements:
+        post: '\d+'
+
+comment_create:
+    path: /post/{post}/comment/create
+    controller: App\Controller\User\BlogController::createComment
+    requirements:
+        post: '\d+'
+
+comment_edit:
+    path: /post/{post}/comment/{comment}/edit
+    controller: App\Controller\User\BlogController::editComment
+    requirements:
+        comment: '\d+'
         post: '\d+'

@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Post
 {
     #[ORM\Id]
@@ -29,6 +30,7 @@ class Post
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
@@ -132,5 +134,17 @@ class Post
         $this->deletedAt = $deletedAt;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist():void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function preUpdate():void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

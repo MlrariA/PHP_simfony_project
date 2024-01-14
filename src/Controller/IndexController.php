@@ -7,6 +7,7 @@ use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class IndexController extends AbstractController
@@ -18,10 +19,11 @@ class IndexController extends AbstractController
 
     }
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $posts = $this->postRepository->findAllPosts($request->get('search_query'));
         return $this->render('blog/blog.html.twig',[
-            'posts'=> $this->postRepository->findAll()
+            'posts'=> $posts
         ]);
     }
 }

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container mt-4 d-flex flex-column gap-4">
+        {% for comment in comments %}
+            <div>
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mt-0">{{ comment.user? comment.user.email : comment.email }}</h5>
+                            <div>{{ comment.createdAt|date('d.m.Y H:i:s') }}</div>
+                        </div>
+                        <div>
+                            <a href="{{ path("comment_approve", {comment:comment.id}) }}" class="btn btn-success">принять</a>
+                            <a href="{{ path("comment_reject", {comment:comment.id}) }}"
+                               class="btn btn-danger">удалить</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ comment.content }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

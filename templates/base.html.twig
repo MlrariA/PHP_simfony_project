@@ -18,7 +18,7 @@
 {% block header %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="{{ path("homepage")}}">
+            <a class="navbar-brand" href="{{ path("homepage") }}">
                 <img alt="logo" style="max-width:30px; max-height:30px " src="{{ asset("images/logo.jpg") }}">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -30,27 +30,45 @@
                 <ul class="navbar-nav mr-auto">
                     {% if is_granted(constant("App\\Entity\\User::ROLE_ADMIN")) %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path("post_create")}}">добавить статью</a>
+                            <a class="nav-link" href="{{ path("post_create") }}">добавить статью</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path("comment_to_approve_list") }}">менеджер комментариев</a>
                         </li>
                     {% endif %}
                     {% if is_granted('IS_AUTHENTICATED') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path("app_logout")}}">выйти</a>
+                            <a class="nav-link" href="{{ path("app_logout") }}">выйти</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path("app_login")}}">войти</a>
+                            <a class="nav-link" href="{{ path("app_login") }}">войти</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path("app_register")}}">зарегистрироваться</a>
+                            <a class="nav-link" href="{{ path("app_register") }}">зарегистрироваться</a>
                         </li>
                     {% endif %}
                 </ul>
             </div>
+            <form class="form-inline my-2 my-lg-0 d-flex">
+                <input class="form-control mr-sm-2"  name="search_query" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+            </form>
         </div>
     </nav>
 {% endblock %}
-{% block body %}{% endblock %}
+<div class="container">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+</div>
+{% block body %}
+{% endblock %}
 
 </body>
 </html>

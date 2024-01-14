@@ -22,13 +22,18 @@
                             <a href="{{ path("comment_create", {post:post.id}) }}" class="btn btn-success">добавить коментарий</a>
                         </div>
                         {% for comment in post.comments %}
+                            {% if comment.approved and comment.deletedAt is null %}
                             <div class="media mt-3">
                                 <div class="media-body">
                                     <h5 class="mt-0">{{ comment.user? comment.user.email : comment.email }}</h5>
                                     <div>{{ comment.createdAt|date('d.m.Y H:i:s') }}</div>
                                     <p>{{ comment.content }}</p>
+                                    {% if is_granted(constant("App\\Entity\\User::ROLE_ADMIN")) %}
+                                        <a href="{{ path("comment_delete", {comment:comment.id}) }}" class="btn btn-danger">удалить комментарий</a>
+                                    {% endif %}
                                 </div>
                             </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>

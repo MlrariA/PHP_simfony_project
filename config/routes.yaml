@@ -36,3 +36,26 @@ comment_edit:
     requirements:
         comment: '\d+'
         post: '\d+'
+
+comment_to_approve_list:
+    path: /admin/commentsToApprove
+    controller: App\Controller\Admin\BlogController::commentsToApprove
+
+
+comment_approve:
+    path: /admin/comment/{comment}/approve
+    controller: App\Controller\Admin\BlogController::commentApprove
+    requirements:
+        comment: '\d+'
+
+comment_reject:
+    path: /admin/comment/{comment}/reject
+    controller: App\Controller\Admin\BlogController::commentReject
+    requirements:
+        comment: '\d+'
+
+comment_delete:
+    path: /admin/comment/{comment}/delete
+    controller: App\Controller\Admin\BlogController::commentDelete
+    requirements:
+        comment: '\d+'
